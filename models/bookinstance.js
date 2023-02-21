@@ -9,13 +9,13 @@ const BookInstanceSchema = new Schema({
     type: String,
     required: true,
     enum: ["Available","Maintenance","Loaned", "Reserved"],
-    default: "Mainntenance",
+    default: "Maintenance",
   },
   due_back: {type: Date, default: Date.now}
 })
 
 BookInstanceSchema.virtual("url").get(function(){
-  return `/catalog/bookInstance/${this._id}`
+  return `/catalog/bookinstance/${this._id}`
 })
 
 module.exports = mongoose.model("BookInstance", BookInstanceSchema)

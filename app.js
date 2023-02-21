@@ -11,7 +11,7 @@ let app = express();
 
 const mongoose = require("mongoose")
 mongoose.set("strictQuery", false)
-const mongoDB = "mongodb+srv://lucasAdmin:lucas1353@cluster0.oximzo5.mongodb.net/local_library?retryWrites=true&w=majority"
+const mongoDB = "mongodb+srv://lucasAdmin:lucas1353@cluster0.oximzo5.mongodb.net/project_locallibrary?retryWrites=true&w=majority"
 
 main().catch(err => console.log(err))
 async function main() {
