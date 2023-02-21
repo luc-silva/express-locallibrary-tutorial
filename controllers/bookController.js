@@ -51,8 +51,35 @@ exports.book_list = function (req, res, next) {
         });
 };
 
-exports.book_detail = (request, response) => {
-    response.send("Hold on, not yet", request.params.id);
+exports.book_detail = (request, response, next) => {
+    async.parallel(
+        {
+            book(callback) {
+                Book.findById(request.params.id)
+                    .populate("author")
+                    .populate("genre")
+                    .exec(callback);
+            },
+            book_instance(callback) {
+                BookInstance.find({ book: request.params.id }).exec(callback);
+            },
+        },
+        (err, results) => {
+            if (err) {
+                return next(err);
+            }
+            if (results.book === null) {
+                const err = new Error("Not found");
+                err.status = 404;
+                return next(err);
+            }
+            response.render("book_detail", {
+                title: results.book.title,
+                book: results.book,
+                book_instances: results.book_instance,
+            });
+        }
+    );
 };
 
 exports.book_create_get = (request, response) => {
